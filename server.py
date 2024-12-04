@@ -21,6 +21,11 @@ app.add_middleware(
 )
 
 
+@app.get("/")
+async def root():
+    return {"message": "Welcome to the STT service"}
+
+
 @app.websocket("/stt")
 async def websocket_endpoint(websocket: WebSocket):
     """Handle WebSocket connections."""
@@ -30,5 +35,9 @@ async def websocket_endpoint(websocket: WebSocket):
 
 if __name__ == "__main__":
     import uvicorn
+    import os
 
-    uvicorn.run(app, host="localhost", port=8001)
+    HOST = os.getenv("HOST", "localhost")
+    PORT = os.getenv("PORT", 8000)
+
+    uvicorn.run(app, host=HOST, port=PORT)
